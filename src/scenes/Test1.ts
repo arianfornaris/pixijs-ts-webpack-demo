@@ -1,16 +1,18 @@
 import { Sprite } from "pixi.js";
 import Scene from "./Scene";
 
-const BOTTOM = 500;
-const DURATION = 2000;
+const TOP_POSITION = 200;
+const MOVE_CARD_DURATION = 2000;
+const NEXT_CARD_DELAY = 1000;
 
 export class Test1 extends Scene {
 
-    private _stack: Sprite[];
-    private _topCard: Sprite;
-    private _time = 0;
-    private _startAngle = 0;
-    private _startY: number;
+    private _cards: Sprite[];
+    private _movingCard: Sprite;
+    private _time: number;
+    private _cardInitAngle: number;
+    private _cardInitY: number;
+    private _state: "waiting" | "moving";
 
     create(): void {
 
@@ -18,57 +20,83 @@ export class Test1 extends Scene {
 
         const margin = 20;
 
-        this._stack = [];
+        this._cards = [];
 
         for (let i = 0; i < 144; i++) {
 
-            const sprite = new Sprite(sheet[(i % 10) + 1 + ".jpg"]);
+            const card = new Sprite(sheet[(i % 10) + 1 + ".jpg"]);
 
-            sprite.position.set(200 + Math.random() * margin, 200 + Math.random() * margin);
-            sprite.anchor.set(0.5, 0.5);
-            sprite.angle = (3 + Math.random() * 3) * (i % 2 == 0 ? 1 : -1);
+            card.position.set(200 + Math.random() * margin, 500 + Math.random() * margin);
+            card.anchor.set(0.5, 0.5);
+            card.angle = (3 + Math.random() * 3) * (i % 2 == 0 ? 1 : -1);
 
-            this.addChild(sprite);
+            this.addChild(card);
 
-            this._stack.push(sprite);
+            this._cards.push(card);
         }
 
-        this.popCard();
+        this._state = "waiting";
+        this._time = 0;
     }
 
-    private popCard() {
+    private popNextCard() {
 
-        this._topCard = this._stack.pop();
+        this._movingCard = this._cards.pop();
 
-        if (this._topCard) {
+        if (this._movingCard) {
 
-            this._time = 0;
-            this._startAngle = this._topCard.angle;
-            this._startY = this._topCard.y;
+            this._cardInitAngle = this._movingCard.angle;
+            this._cardInitY = this._movingCard.y;
 
-            this.stage.setChildIndex(this._topCard, this.stage.children.length - 1);
+            this.stage.setChildIndex(this._movingCard, this.stage.children.length - 1);
         }
     }
 
-    protected update(): void {
+    private updateCardMovement() {
 
-        if (!this._topCard) {
+        if (!this._movingCard) {
 
             return;
         }
 
         this._time += this.app.ticker.elapsedMS;
 
-        const p = this._time / DURATION;
+        const p = this._time / MOVE_CARD_DURATION;
 
-        this._topCard.y = Math.min(this._startY + (BOTTOM - this._startY) * p, BOTTOM);
-        this._topCard.angle = this._startAngle - 2 * this._startAngle * p;
+        this._movingCard.y = Math.max(this._cardInitY - (this._cardInitY - TOP_POSITION) * p, TOP_POSITION);
+        this._movingCard.angle = this._cardInitAngle - 2 * this._cardInitAngle * p;
 
-        this._topCard.scale.set(1 + Math.sin(p * Math.PI) * 0.2);
+        this._movingCard.scale.set(1 + Math.sin(p * Math.PI) * 0.2);
 
-        if (this._topCard.y >= BOTTOM) {
+        if (this._movingCard.y <= TOP_POSITION) {
 
-            this.popCard();
+            this._state = "waiting";
+            this._time = 0;
+        }
+    }
+
+    private updateWaiting() {
+
+        this._time += this.app.ticker.elapsedMS;
+
+        if (this._time > NEXT_CARD_DELAY) {
+
+            this._state = "moving";
+            this._time = 0;
+
+            this.popNextCard();
+        }
+    }
+
+    protected update(): void {
+
+        if (this._state === "waiting") {
+
+            this.updateWaiting();
+
+        } else {
+
+            this.updateCardMovement();
         }
     }
 }
