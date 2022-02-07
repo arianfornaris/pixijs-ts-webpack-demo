@@ -30,7 +30,7 @@ export default class Scene {
         this.app.stage.removeChildren();
     }
 
-    protected update(delta: number) {
+    protected update(delta?: number) {
 
     }
 }

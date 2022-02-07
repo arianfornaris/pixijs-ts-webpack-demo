@@ -1,4 +1,4 @@
-import { Application } from "pixi.js";
+import { Application, Sprite, Texture } from "pixi.js";
 import { Menu } from "./scenes/Menu";
 
 const app = new Application({
@@ -6,8 +6,16 @@ const app = new Application({
 	resolution: window.devicePixelRatio || 1,
 	autoDensity: true,
 	backgroundColor: 0x6495ed,
-	width: 640,
-	height: 480
+	width: 400,
+	height: 700
 });
 
-const menu = new Menu(app);
+app.loader
+	.add("cards", "./assets/cards.json")
+	.load(() => {
+
+		console.log("complete");
+
+		new Menu(app);
+	});
+

@@ -1,17 +1,18 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
+const path = require("path");
+const CopyPlugin = require("copy-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = (env, argv) => {
     return ({
 
-        stats: 'minimal', // Keep console output easy to read.
+        stats: "minimal", // Keep console output easy to read.
 
-        entry: './src/index.ts', // Your program entry point\
+        entry: "./src/index.ts", // Your program entry point\
 
         // Your build destination
         output: {
-            path: path.resolve(__dirname, 'dist'),
+            path: path.resolve(__dirname, "dist"),
             filename: "[name]-[contenthash].bundle.js",
         },
 
@@ -33,11 +34,11 @@ module.exports = (env, argv) => {
         performance: { hints: false },
 
         // Enable sourcemaps while debugging
-        devtool: argv.mode === 'development' ? 'eval-source-map' : undefined,
+        devtool: argv.mode === "development" ? "eval-source-map" : undefined,
 
         // Minify the code when making a final build
         optimization: {
-            minimize: argv.mode === 'production',
+            minimize: argv.mode === "production",
             minimizer: [new TerserPlugin({
                 terserOptions: {
                     ecma: 6,
@@ -62,27 +63,29 @@ module.exports = (env, argv) => {
             rules: [
                 {
                     test: /\.ts(x)?$/,
-                    loader: 'ts-loader',
+                    loader: "ts-loader",
                     exclude: /node_modules/
-                },
-                {
-                    test: /\.(png|svg|jpg|jpeg|gif)$/i,
-                    type: 'asset/resource',
-                },
+                }
             ]
         },
         resolve: {
             extensions: [
-                '.tsx',
-                '.ts',
-                '.js'
+                ".tsx",
+                ".ts",
+                ".js"
             ]
         },
 
         plugins: [
+
+            // Copy our static assets to the final build
+            new CopyPlugin({
+                patterns: [{ from: "static/" }],
+            }),
+
             // Make an index.html from the template
             new HtmlWebpackPlugin({
-                template: 'src/index.html',
+                template: "src/index.html",
                 hash: true,
                 minify: false
             })

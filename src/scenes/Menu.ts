@@ -1,4 +1,4 @@
-import { Application, Text } from "pixi.js";
+import { Application, Spritesheet, Text, Texture } from "pixi.js";
 import Scene from "./Scene";
 import { Test1 } from "./Test1";
 import { Test2 } from "./Test2";
@@ -37,5 +37,6 @@ export class Menu extends Scene {
 
             this.addChild(btn);
         }
+
     }
 }

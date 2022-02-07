@@ -5,14 +5,9 @@
         "sourceMap": true,
         "target": "es2015",
         "module": "ESNext",
-    
-        // Rules for your code
-        "strict": true,
-
         // Settings for linking source files
         "moduleResolution": "node",
         "esModuleInterop": true,
-        "resolveJsonModule": true,
         "allowSyntheticDefaultImports": true,
         "experimentalDecorators": true,
     },
