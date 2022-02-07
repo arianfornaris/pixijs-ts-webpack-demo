@@ -7,7 +7,7 @@ const app = new Application({
 	autoDensity: true,
 	backgroundColor: 0x6495ed,
 	width: 400,
-	height: 700
+	height: 700,
 });
 
 app.loader

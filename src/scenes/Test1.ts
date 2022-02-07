@@ -1,4 +1,4 @@
-import { Sprite } from "pixi.js";
+import { Sprite, Text } from "pixi.js";
 import Scene from "./Scene";
 
 const TOP_POSITION = 200;
@@ -35,9 +35,23 @@ export class Test1 extends Scene {
             this._cards.push(card);
         }
 
+        this.addDebugText();
+
         this._state = "waiting";
         this._time = 0;
     }
+
+    private addDebugText() {
+
+        const label = new Text("0fps", {fill: "#f0f0f0"});
+        label.position.set(10, 10);
+        this.addChild(label);
+
+        this.app.ticker.add(() => {
+
+            label.text = Math.round(this.app.ticker.FPS) + "fps";
+        });
+    }    
 
     private popNextCard() {
 
