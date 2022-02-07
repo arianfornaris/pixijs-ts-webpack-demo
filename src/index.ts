@@ -1,4 +1,5 @@
 import { Application, Sprite } from "pixi.js";
+import clampy from "./assets/clampy.png";
 
 const app = new Application({
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
@@ -9,10 +10,10 @@ const app = new Application({
 	height: 480
 });
 
-const obj1 = Sprite.from("clampy.png");
+const obj1 = Sprite.from(clampy);
 obj1.scale.set(0.5);
 
-const obj2 = Sprite.from("clampy.png");
+const obj2 = Sprite.from(clampy);
 obj2.angle = 90;
 obj2.anchor.set(0.5);
 obj1.addChild(obj2);

@@ -1,18 +1,18 @@
-const webpack = require('webpack');
 const path = require('path');
-const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (env, argv) => {
     return ({
+
         stats: 'minimal', // Keep console output easy to read.
-        entry: './src/index.ts', // Your program entry point
+
+        entry: './src/index.ts', // Your program entry point\
 
         // Your build destination
         output: {
             path: path.resolve(__dirname, 'dist'),
-            filename: 'bundle.js'
+            filename: "[name]-[contenthash].bundle.js",
         },
 
         // Config for your testing server
@@ -45,8 +45,17 @@ module.exports = (env, argv) => {
                     output: { comments: false, beautify: false },
                 },
             })],
+            splitChunks: {
+                chunks: "all",
+                cacheGroups: {
+                    defaultVendors: {
+                        name: "vendors",
+                        test: /[\\/]node_modules[\\/]/,
+                        reuseExistingChunk: true,
+                    }
+                }
+            }
         },
-
 
         // Explain webpack how to do Typescript
         module: {
@@ -55,7 +64,11 @@ module.exports = (env, argv) => {
                     test: /\.ts(x)?$/,
                     loader: 'ts-loader',
                     exclude: /node_modules/
-                }
+                },
+                {
+                    test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                    type: 'asset/resource',
+                },
             ]
         },
         resolve: {
@@ -67,14 +80,9 @@ module.exports = (env, argv) => {
         },
 
         plugins: [
-            // Copy our static assets to the final build
-            new CopyPlugin({
-                patterns: [{ from: 'static/' }],
-            }),
-
             // Make an index.html from the template
             new HtmlWebpackPlugin({
-                template: 'src/index.ejs',
+                template: 'src/index.html',
                 hash: true,
                 minify: false
             })
