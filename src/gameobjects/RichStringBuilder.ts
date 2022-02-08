@@ -19,10 +19,12 @@ class ImageElement {
 
 export class RichStringBuilder {
 
-    private _letterSpacing: number = 10;
-    private _x: number = 0;
-    private _y: number = 0;
-    private _fontSize: number = 16;
+    private _letterSpacing = 10;
+    private _lineSpacing = 5;
+    private _x = 0;
+    private _y = 0;
+    private _fontSize = 16;
+    private _width = 0;
     private _elements: Array<StringElement | ImageElement> = [];
 
     position(x: number, y: number) {
@@ -33,9 +35,16 @@ export class RichStringBuilder {
         return this;
     }
 
-    spacing(letterSpacing: number) {
+    letterSpacing(letterSpacing: number) {
 
         this._letterSpacing = letterSpacing;
+
+        return this;
+    }
+
+    lineSpacing(lineSpacing: number) {
+
+        this._lineSpacing = lineSpacing;
 
         return this;
     }
@@ -43,6 +52,13 @@ export class RichStringBuilder {
     fontSize(fontSize: number) {
 
         this._fontSize = fontSize;
+
+        return this;
+    }
+
+    width(width: number) {
+
+        this._width = width;
 
         return this;
     }
@@ -111,7 +127,7 @@ export class RichStringBuilder {
         for (const data of lineData) {
 
             if (data.text) {
-                
+
                 lineHeight = Math.max(lineHeight, data.bounds.height);
             }
         }
@@ -127,7 +143,15 @@ export class RichStringBuilder {
             }
         }
 
+        // adjust position
+
         for (const data of lineData) {
+
+            if (x + data.bounds.width > this._width) {
+
+                x = this._x;
+                y += lineHeight + this._lineSpacing;
+            }
 
             if (data.text) {
 
@@ -140,6 +164,8 @@ export class RichStringBuilder {
 
             x += data.bounds.width + this._letterSpacing;
         }
+
+        // add the objects
 
         for (const data of lineData) {
 

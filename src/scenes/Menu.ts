@@ -1,4 +1,4 @@
-import { Application, Spritesheet, Text, Texture } from "pixi.js";
+import { Application, Text } from "pixi.js";
 import Scene from "./Scene";
 import { Test1 } from "./Test1";
 import { Test2 } from "./Test2";
@@ -20,12 +20,12 @@ export class Menu extends Scene {
 
         let i = 0;
 
-        for(const testInfo of testsInfo) {
+        for (const testInfo of testsInfo) {
 
             const btn = new Text(testInfo.title, {
                 fill: "#fff"
             });
-    
+
             btn.position.set(100, 100 + i++ * 50);
             btn.interactive = true;
             btn.once("pointerdown", () => {
@@ -37,6 +37,5 @@ export class Menu extends Scene {
 
             this.addChild(btn);
         }
-
     }
 }

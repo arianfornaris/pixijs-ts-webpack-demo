@@ -9,13 +9,19 @@ export class Test2 extends Scene {
 
         builder
             .position(5, 0)
-            .spacing(5)
-            .fontSize(45)
-            .string("hello", { fill: "red" })
-            .image("emojis", "emoji-07.png")
-            .string("世界", { fill: "darkblue" })
-            .image("emojis", "emoji-01.png")
-            .string("Мир", { fill: "green" })
-            .build(this.app);
+            .letterSpacing(5)
+            .lineSpacing(20)
+            .fontSize(32)
+            .width(400);
+
+        for (let i = 0; i < 10; i++) {
+
+            builder.string("hello", { fill: "pink" })
+                .image("emojis", "emoji-07.png")
+                .string("世界", { fill: "darkblue" })
+                .image("emojis", "emoji-01.png")
+                .string("Мир", { fill: "green" })
+                .build(this.app);
+        }
     }
 }
