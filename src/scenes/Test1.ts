@@ -16,7 +16,7 @@ export class Test1 extends Scene {
 
     create(): void {
 
-        let sheet = this.app.loader.resources["cards"].textures;
+        const sheet = this.app.loader.resources["cards"].textures;
 
         const margin = 20;
 

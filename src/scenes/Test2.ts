@@ -5,12 +5,17 @@ export class Test2 extends Scene {
 
     create(): void {
 
-        const builder = new RichStringBuilder(5, 100);
+        const builder = new RichStringBuilder();
 
         builder
-            .string("hello", { fill: "red", fontSize: 16 })
-            .string("世界", { fill: "darkblue", fontSize: 20 })
-            .string("Мир", { fill: "green", fontSize: 50 })
-            .build(this.stage);
+            .position(5, 0)
+            .spacing(5)
+            .fontSize(45)
+            .string("hello", { fill: "red" })
+            .image("emojis", "emoji-07.png")
+            .string("世界", { fill: "darkblue" })
+            .image("emojis", "emoji-01.png")
+            .string("Мир", { fill: "green" })
+            .build(this.app);
     }
 }

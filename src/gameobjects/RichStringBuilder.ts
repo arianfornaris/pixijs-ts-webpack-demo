@@ -1,4 +1,4 @@
-import { Container, ITextStyle, Rectangle, Text, TextStyle } from "pixi.js";
+import { Application, Container, ITextStyle, Loader, Rectangle, Sprite, Text, TextStyle, Texture } from "pixi.js";
 
 class StringElement {
 
@@ -9,94 +9,141 @@ class StringElement {
 }
 
 class ImageElement {
-    key: string;
-    frame?: string;
+
+    constructor(
+        public key: string,
+        public frame: string,
+        public height: number) {
+    }
 }
 
 export class RichStringBuilder {
 
-    private _y: number;
-    private _x: number;
     private _letterSpacing: number = 10;
-    private _elements: Array<StringElement | ImageElement>;
+    private _x: number = 0;
+    private _y: number = 0;
+    private _fontSize: number = 16;
+    private _elements: Array<StringElement | ImageElement> = [];
 
-    constructor(x: number, y: number) {
+    position(x: number, y: number) {
 
         this._x = x;
         this._y = y;
-        this._elements = [];
+
+        return this;
+    }
+
+    spacing(letterSpacing: number) {
+
+        this._letterSpacing = letterSpacing;
+
+        return this;
+    }
+
+    fontSize(fontSize: number) {
+
+        this._fontSize = fontSize;
+
+        return this;
     }
 
     string(str: string, style?: Partial<ITextStyle> | TextStyle) {
 
-        style = Object.assign(style || {}, { trim: true, textBaseline: "middle" });
+        style = Object.assign(style || {}, { trim: true, textBaseline: "middle", fontSize: this._fontSize });
 
         this._elements.push(new StringElement(str, style));
 
         return this;
     }
 
-    build(parent?: Container) {
+    image(key: string, frame?: string) {
+
+        this._elements.push(new ImageElement(key, frame, this._fontSize));
+
+        return this;
+    }
+
+    build(app: Application, parent?: Container) {
+
+        parent = parent ?? app.stage;
 
         let x = this._x;
         let y = this._y;
 
-        const lineData: Array<{ text: Text, bounds: Rectangle }> = [];
+        // create objects and first metrics
+
+        const lineData: Array<{ text?: Text, sprite?: Sprite, bounds?: Rectangle }> = [];
 
         for (const element of this._elements) {
 
             if (element instanceof StringElement) {
 
                 const text = new Text(element.text, element.style);
-                const bounds = text.getBounds();
 
-                lineData.push({ text, bounds });
+                lineData.push({ text, bounds: text.getBounds() });
+
+            } else {
+
+                let texture: Texture;
+
+                if (element.frame) {
+
+                    const sheet = app.loader.resources[element.key].textures;
+                    texture = sheet[element.frame];
+
+                } else {
+
+                    texture = app.loader.resources[element.key].texture;
+                }
+
+                const sprite = new Sprite(texture);
+                sprite.height = element.height;
+                sprite.scale.x = sprite.scale.y;
+
+                lineData.push({ sprite, bounds: sprite.getBounds() });
             }
         }
+
+        // compute line height
 
         let lineHeight = 0;
 
         for (const data of lineData) {
 
-            lineHeight = Math.max(lineHeight, data.bounds.height);
+            if (data.text) {
+                
+                lineHeight = Math.max(lineHeight, data.bounds.height);
+            }
         }
 
-        for(const data of lineData) {
+        // adjust lineHeight of texts
 
-            const style = data.text.style;
-            style.lineHeight = lineHeight * 2;
+        for (const data of lineData) {
+
+            if (data.text) {
+
+                const style = data.text.style;
+                style.lineHeight = lineHeight * 2;
+            }
         }
 
         for (const data of lineData) {
 
-            console.log(data.text.text + " " + lineHeight + " " + data.bounds.height);
+            if (data.text) {
 
-            data.text.position.set(x, y + (lineHeight - data.bounds.height));
+                data.text.position.set(x, y + (lineHeight - data.bounds.height));
+
+            } else {
+
+                data.sprite.position.set(x, y);
+            }
 
             x += data.bounds.width + this._letterSpacing;
         }
 
         for (const data of lineData) {
 
-            parent.addChild(data.text);
+            parent.addChild(data.text ?? data.sprite);
         }
     }
-
-    // string(str: string, style?: Partial<ITextStyle> | TextStyle, parent?: Container) {
-
-    //     const text = new Text(str, style);
-
-    //     text.position.set(this._cursorX, this._cursorY);
-
-    //     const bounds = text.getBounds();
-
-    //     this._cursorX += bounds.width + this._spacing;
-
-    //     if (parent) {
-
-    //         parent.addChild(text);
-    //     }
-
-    //     return text;
-    // }
 }

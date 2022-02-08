@@ -13,6 +13,7 @@ const app = new Application({
 
 app.loader
 	.add("cards", "./assets/cards.json")
+	.add("emojis", "./assets/emojis.json")
 	.load(() => {
 
 		console.log("complete");

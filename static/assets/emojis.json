@@ -1,0 +1,175 @@
+{"frames": {
+
+"emoji-01.png":
+{
+	"frame": {"x":139,"y":258,"w":126,"h":133},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":126,"h":133},
+	"sourceSize": {"w":126,"h":133}
+},
+"emoji-02.png":
+{
+	"frame": {"x":241,"y":0,"w":124,"h":127},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":127},
+	"sourceSize": {"w":124,"h":127}
+},
+"emoji-03.png":
+{
+	"frame": {"x":365,"y":0,"w":124,"h":127},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":127},
+	"sourceSize": {"w":124,"h":127}
+},
+"emoji-04.png":
+{
+	"frame": {"x":0,"y":0,"w":116,"h":120},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":116,"h":120},
+	"sourceSize": {"w":116,"h":120}
+},
+"emoji-05.png":
+{
+	"frame": {"x":0,"y":127,"w":121,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":121,"h":128},
+	"sourceSize": {"w":121,"h":128}
+},
+"emoji-06.png":
+{
+	"frame": {"x":121,"y":127,"w":122,"h":129},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":122,"h":129},
+	"sourceSize": {"w":122,"h":129}
+},
+"emoji-07.png":
+{
+	"frame": {"x":116,"y":0,"w":125,"h":126},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":125,"h":126},
+	"sourceSize": {"w":125,"h":126}
+},
+"emoji-08.png":
+{
+	"frame": {"x":353,"y":392,"w":116,"h":141},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":116,"h":141},
+	"sourceSize": {"w":116,"h":141}
+},
+"emoji-09.png":
+{
+	"frame": {"x":367,"y":127,"w":120,"h":131},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":120,"h":131},
+	"sourceSize": {"w":120,"h":131}
+},
+"emoji-10.png":
+{
+	"frame": {"x":0,"y":392,"w":122,"h":135},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":122,"h":135},
+	"sourceSize": {"w":122,"h":135}
+},
+"emoji-11.png":
+{
+	"frame": {"x":265,"y":258,"w":126,"h":134},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":126,"h":134},
+	"sourceSize": {"w":126,"h":134}
+},
+"emoji-12.png":
+{
+	"frame": {"x":0,"y":258,"w":139,"h":131},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":139,"h":131},
+	"sourceSize": {"w":139,"h":131}
+},
+"emoji-13.png":
+{
+	"frame": {"x":116,"y":533,"w":108,"h":142},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":108,"h":142},
+	"sourceSize": {"w":108,"h":142}
+},
+"emoji-14.png":
+{
+	"frame": {"x":122,"y":392,"w":116,"h":135},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":116,"h":135},
+	"sourceSize": {"w":116,"h":135}
+},
+"emoji-15.png":
+{
+	"frame": {"x":391,"y":258,"w":120,"h":134},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":120,"h":134},
+	"sourceSize": {"w":120,"h":134}
+},
+"emoji-16.png":
+{
+	"frame": {"x":224,"y":533,"w":114,"h":142},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":114,"h":142},
+	"sourceSize": {"w":114,"h":142}
+},
+"emoji-17.png":
+{
+	"frame": {"x":238,"y":392,"w":115,"h":139},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":115,"h":139},
+	"sourceSize": {"w":115,"h":139}
+},
+"emoji-18.png":
+{
+	"frame": {"x":243,"y":127,"w":124,"h":129},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":129},
+	"sourceSize": {"w":124,"h":129}
+},
+"emoji-19.png":
+{
+	"frame": {"x":0,"y":533,"w":116,"h":141},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":116,"h":141},
+	"sourceSize": {"w":116,"h":141}
+},
+"emoji-20.png":
+{
+	"frame": {"x":338,"y":533,"w":114,"h":143},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":114,"h":143},
+	"sourceSize": {"w":114,"h":143}
+}},
+"animations": {
+	"emoji": ["emoji-01.png","emoji-02.png","emoji-03.png","emoji-04.png","emoji-05.png","emoji-06.png","emoji-07.png","emoji-08.png","emoji-09.png","emoji-10.png","emoji-11.png","emoji-12.png","emoji-13.png","emoji-14.png","emoji-15.png","emoji-16.png","emoji-17.png","emoji-18.png","emoji-19.png","emoji-20.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "emojis.png",
+	"format": "RGBA8888",
+	"size": {"w":511,"h":676},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:2c1dfd40fee2c278f0f892428005bcbc:9d847668ede908598a46dc170f492187:0ce9fea2ab65d7f4526bcec13162fb8f$"
+}
+}
