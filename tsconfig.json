@@ -3,7 +3,7 @@
         // Settings for the compiler
         "outDir": "./dist/",
         "sourceMap": true,
-        "target": "es2015",
+        "target": "ES2021",
         "module": "ESNext",
         // Settings for linking source files
         "moduleResolution": "node",

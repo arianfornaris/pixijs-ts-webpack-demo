@@ -1,19 +1,30 @@
 import { Application, Container, ITextStyle, Loader, Rectangle, Sprite, Text, TextStyle, Texture } from "pixi.js";
 
-class StringElement {
+class ParagraphElement {
+
+    public bounds: Rectangle;
+}
+
+class StringElement extends ParagraphElement {
+
+    public object: Text;
 
     constructor(
         public text: string,
         public style?: Partial<ITextStyle> | TextStyle) {
+        super();
     }
 }
 
-class ImageElement {
+class ImageElement extends ParagraphElement {
+
+    public object: Sprite;
 
     constructor(
         public key: string,
         public frame: string,
         public height: number) {
+        super();
     }
 }
 
@@ -83,12 +94,7 @@ export class RichStringBuilder {
 
         parent = parent ?? app.stage;
 
-        let x = this._x;
-        let y = this._y;
-
         // create objects and first metrics
-
-        const lineData: Array<{ text?: Text, sprite?: Sprite, bounds?: Rectangle }> = [];
 
         for (const element of this._elements) {
 
@@ -96,7 +102,8 @@ export class RichStringBuilder {
 
                 const text = new Text(element.text, element.style);
 
-                lineData.push({ text, bounds: text.getBounds() });
+                element.object = text;
+                element.bounds = text.getBounds();
 
             } else {
 
@@ -116,60 +123,83 @@ export class RichStringBuilder {
                 sprite.height = element.height;
                 sprite.scale.x = sprite.scale.y;
 
-                lineData.push({ sprite, bounds: sprite.getBounds() });
+                element.object = sprite;
+                element.bounds = sprite.getBounds();
             }
         }
+
+        let x = this._x;
+        let y = this._y;
+
+        // {
+        //     let height = 0;
+
+        //     for (const element of this._elements) {
+
+        //         if (x + element.bounds.width > this._width) {
+
+        //             break;
+        //         }
+
+        //         x += element.bounds.width + this._letterSpacing;
+
+        //         height = Math.max(height, element.bounds.height);
+        //     }
+        // }
 
         // compute line height
 
         let lineHeight = 0;
 
-        for (const data of lineData) {
+        for (const element of this._elements) {
 
-            if (data.text) {
+            if (element instanceof StringElement) {
 
-                lineHeight = Math.max(lineHeight, data.bounds.height);
+                lineHeight = Math.max(lineHeight, element.bounds.height);
             }
         }
 
         // adjust lineHeight of texts
 
-        for (const data of lineData) {
+        for (const element of this._elements) {
 
-            if (data.text) {
+            if (element instanceof StringElement) {
 
-                const style = data.text.style;
+                const style = element.object.style;
                 style.lineHeight = lineHeight * 2;
             }
         }
 
         // adjust position
 
-        for (const data of lineData) {
+        for (const element of this._elements) {
 
-            if (x + data.bounds.width > this._width) {
+            if (x + element.bounds.width > this._width) {
 
                 x = this._x;
                 y += lineHeight + this._lineSpacing;
             }
 
-            if (data.text) {
+            if (element.object) {
 
-                data.text.position.set(x, y + (lineHeight - data.bounds.height));
+                element.object.position.set(x, y + (lineHeight - element.bounds.height));
 
             } else {
 
-                data.sprite.position.set(x, y);
+                element.object.position.set(x, y);
             }
 
-            x += data.bounds.width + this._letterSpacing;
+            x += element.bounds.width + this._letterSpacing;
         }
 
         // add the objects
 
-        for (const data of lineData) {
+        if (parent) {
 
-            parent.addChild(data.text ?? data.sprite);
+            for (const element of this._elements) {
+
+                parent.addChild(element.object);
+            }
         }
     }
 }
