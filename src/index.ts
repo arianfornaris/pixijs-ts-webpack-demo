@@ -1,5 +1,6 @@
 import { Application } from "pixi.js";
 import { Menu } from "./scenes/Menu";
+import { Preload } from "./scenes/Preload";
 
 const app = new Application({
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
@@ -15,16 +16,5 @@ const app = new Application({
 app.view.style.width = "auto";
 app.view.style.height = "100%";
 
-app.loader
-	.add("cards", "./assets/cards.json")
-	.add("emojis", "./assets/emojis.json")
-	.add("fire", "./assets/fire.json")
-	.add("buttons", "./assets/buttons.json")
-	.add("bg", "./assets/bg.jpg")
-	.load(() => {
-
-		console.log("complete");
-
-		new Menu(app);
-	});
+new Preload(app);
 
