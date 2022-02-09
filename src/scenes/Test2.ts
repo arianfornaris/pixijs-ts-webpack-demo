@@ -2,52 +2,20 @@ import { Container } from "pixi.js";
 import { RichStringBuilder } from "../gameobjects/RichStringBuilder";
 import Scene from "./Scene";
 
-const COLOR = ["red", "white", "lime", "violet", "pink", "orange"];
-const SIZE = [18, 20, 24, 32, 48];
-const SHEETS = ["emojis"];
+const SIZE = [18, 20, 20, 20, 20, 24, 32, 48, 48, 48, 48];
+const FONT_FAMILY = ["serif", "sans serif"];
+const COLOR = ["whitesmoke", "#0009"];
+const SHEET = ["emojis"];
 
 export class Test2 extends Scene {
 
     create(): void {
 
-        // const text = this.generateText();
+        const richText = this.generateText();
 
-        // this.addChild(text);
+        this.centerText(richText);
 
-        const b = new RichStringBuilder();
-
-        b
-            .fontSize(40)
-            .lineSpacing(30)
-            .width(400)
-            
-            .string("hello")
-            .image("emojis", "emoji-01.png")
-            .string("HERE")
-            .image("emojis", "emoji-02.png")
-            
-            .fontSize(60)
-            .string("one two tree")
-            .image("emojis", "emoji-03.png")
-
-            // .string("HERE")
-            // .image("emojis", "emoji-04.png")
-            // .string("Λούσι")
-            // .image("emojis", "emoji-05.png")
-            // .string("HERE")
-            // .image("emojis", "emoji-01.png")
-
-            // .fontSize(64)
-            // .string("hello")
-            // .image("emojis", "emoji-07.png")
-            // .string("HERE")
-            // .image("emojis", "emoji-08.png")
-            // .string("Λούσι")
-            // .image("emojis", "emoji-09.png")
-            // .string("HERE")
-            // .image("emojis", "emoji-01.png")
-
-            .build(this.app);
+        this.addChild(richText);
     }
 
     private generateText() {
@@ -57,25 +25,31 @@ export class Test2 extends Scene {
         const builder = new RichStringBuilder();
 
         builder
-            .position(10, 10)
+            .position(10, 0)
             .letterSpacing(5)
-            .lineSpacing(20)
-            .fontSize(32)
-            .width(380);
+            .lineSpacing(10)
+            .fontSize(30)
+            .width(this.app.view.width - 10);
 
         for (let i = 0; i < 25; i++) {
 
-            //builder.fontSize(this.random(SIZE));
-
-            this.generateRandomWord(builder);
-
             if (Math.random() < 0.5) {
 
-                builder.string(" ");
+                for (let j = 0; j < this.random([1, 2, 3]); j++) {
+
+                    this.generateRandomImage(builder);
+                }
 
             } else {
 
-                this.generateRandomImage(builder);
+                builder.fontSize(this.random(SIZE));
+
+                for (let j = 0; j < this.random([1, 2]); j++) {
+
+                    this.generateRandomWord(builder);
+
+                    builder.string(" ");
+                }
             }
         }
 
@@ -84,9 +58,24 @@ export class Test2 extends Scene {
         return parent;
     }
 
+    private centerText(richText: Container) {
+
+        let b = richText.getBounds();
+
+        if (b.height > this.app.view.height) {
+
+            richText.height = this.app.view.height - 5;
+            richText.scale.x = richText.scale.y;
+        }
+
+        b = richText.getBounds();
+
+        richText.position.y = this.app.view.height / 2 - b.height / 2;
+    }
+
     private generateRandomImage(builder: RichStringBuilder) {
 
-        const key = this.random(SHEETS);
+        const key = this.random(SHEET);
         const textures = this.app.loader.resources[key].textures;
         const frame = this.random(Object.keys(textures));
 
@@ -96,7 +85,8 @@ export class Test2 extends Scene {
     private generateRandomWord(builder: RichStringBuilder) {
 
         builder.string(this.random(POEM), {
-            fill: this.random(COLOR),
+            fontFamily: this.random(FONT_FAMILY),
+            fill: this.random(COLOR)
         });
     }
 
@@ -114,6 +104,7 @@ postage stamp you spend hours at,
 sleepless, drinking gin after the I Love   
 Lucy reruns have gone off stare
 
+
 Κοίταξε αρκετά δυνατά το ύφασμα της νύχτας,
 και αν έχετε προδιάθεση για σκοτάδι ας πούμε
 το παράθυρο που επιλέξατε είναι μαύρο
@@ -122,7 +113,7 @@ Lucy reruns have gone off stare
 Οι επαναλήψεις της Λούσι έχουν φύγει κοίτα
 
 凝視著夜晚的織物，
-如果你傾向於黑暗 - 讓我們說
+如果你傾向於黑暗 讓我們說
 你選擇的窗戶是黑色的
 您花費數小時的郵票，
 不眠不休，在我愛之後喝杜松子酒
@@ -138,3 +129,9 @@ Lucy reruns have gone off stare
     .split(" ")
     .map(w => w.trim())
     .filter(w => w.length > 0);
+
+
+/*
+
+
+*/
