@@ -1,5 +1,4 @@
 import { Application } from "pixi.js";
-import { Menu } from "./scenes/Menu";
 import { Preload } from "./scenes/Preload";
 
 const app = new Application({
