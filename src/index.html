@@ -14,12 +14,17 @@
 			padding: 0;
 			height: 100%;
 			overflow: hidden;
-			background: #000000;
+			background: #1F2549;
 		}
 
-		#pixi-content {
-			width: 100%;
+		#pixi-container {
+			display: block;
+			text-align: center;
+		}
+
+		#pixi-canvas {
 			height: 100%;
+			background: #1F2549;
 		}
 	</style>
 
@@ -27,7 +32,9 @@
 
 <body>
 	<noscript>Please enable JavaScript in your web browser to view this page.</noscript>
-	<div id="pixi-content"><canvas id="pixi-canvas" /></div>
+	<span id="pixi-container">
+		<canvas id="pixi-canvas" />
+	</span>
 </body>
 
 </html>

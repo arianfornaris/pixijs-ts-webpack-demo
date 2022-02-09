@@ -6,10 +6,14 @@ const app = new Application({
 	resolution: window.devicePixelRatio || 1,
 	autoDensity: true,
 	// backgroundColor: 0x6495ed,
-	backgroundColor: 0,
+	backgroundColor: 0x1F2549,
 	width: 400,
 	height: 700,
 });
+
+
+app.view.style.width = "auto";
+app.view.style.height = "100%";
 
 app.loader
 	.add("cards", "./assets/cards.json")
