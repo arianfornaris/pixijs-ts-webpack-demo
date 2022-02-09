@@ -6,7 +6,9 @@ export class BaseTest extends Scene {
 
     create(): void {
 
-        const bg = new Sprite();
+        console.log(this.app.loader.resources["bg"].texture);
+
+        const bg = new Sprite(this.app.loader.resources["bg"].texture);
         bg.interactive = true;
         bg.width = this.app.screen.width;
         bg.height = this.app.screen.height;

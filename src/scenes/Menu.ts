@@ -37,5 +37,8 @@ export class Menu extends Scene {
 
             this.addChild(btn);
         }
+
+        //this.destroy();
+        //new Test3(this.app);
     }
 }

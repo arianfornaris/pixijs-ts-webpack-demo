@@ -1,10 +1,11 @@
 import { Container } from "pixi.js";
 import { RichStringBuilder } from "../gameobjects/RichStringBuilder";
 import { BaseTest } from "./BaseTest";
+import Scene from "./Scene";
 
 const SIZE = [18, 20, 20, 20, 20, 24, 32, 48, 48, 48, 48];
 const FONT_FAMILY = ["serif", "sans serif"];
-const COLOR = ["whitesmoke", "#0009"];
+const COLOR = ["whitesmoke", "pink"];
 const SHEET = ["emojis"];
 
 export class Test2 extends BaseTest {
