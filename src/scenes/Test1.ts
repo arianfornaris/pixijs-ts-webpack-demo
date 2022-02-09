@@ -1,14 +1,18 @@
 import { Sprite, Text } from "pixi.js";
-import { timerPromise } from "../utils/Timer";
+import { BaseTest } from "./BaseTest";
 import Scene from "./Scene";
 
 const TOP_POSITION = 200;
 const MOVE_CARD_DURATION = 2000;
 const NEXT_CARD_DELAY = 1000;
 
-export class Test1 extends Scene {
+export class Test1 extends BaseTest {
 
     async create() {
+
+        super.create();
+
+        this.addDebugText();
 
         const sheet = this.app.loader.resources["cards"].textures;
 
@@ -29,32 +33,30 @@ export class Test1 extends Scene {
             cards.push(card);
         }
 
-        this.addDebugText();
-
         while (cards.length > 0) {
 
+            await this.timer(NEXT_CARD_DELAY);
+
             const card = cards.pop();
-            
+
             this.stage.setChildIndex(card, this.stage.children.length - 1);
 
             const y = card.position.y;
             const angle = card.angle;
 
-            await timerPromise(this.app, MOVE_CARD_DURATION, p => {
+            await this.timer(MOVE_CARD_DURATION, p => {
 
                 card.y = Math.max(y - (y - TOP_POSITION) * p, TOP_POSITION);
                 card.angle = angle - 2 * angle * p;
 
                 card.scale.set(1 + Math.sin(p * Math.PI) * 0.2);
             });
-
-            await timerPromise(this.app, NEXT_CARD_DELAY);
         }
     }
 
     private addDebugText() {
 
-        const label = new Text("0fps", { fill: "#f0f0f0" });
+        const label = new Text("0fps", { fill: "#f0f0f0", fontFamily: "monospace", fontSize: 14 });
         label.position.set(10, 10);
         this.addChild(label);
 

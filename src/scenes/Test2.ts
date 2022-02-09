@@ -1,30 +1,34 @@
 import { Container } from "pixi.js";
 import { RichStringBuilder } from "../gameobjects/RichStringBuilder";
-import { timerPromise } from "../utils/Timer";
-import Scene from "./Scene";
+import { BaseTest } from "./BaseTest";
 
 const SIZE = [18, 20, 20, 20, 20, 24, 32, 48, 48, 48, 48];
 const FONT_FAMILY = ["serif", "sans serif"];
 const COLOR = ["whitesmoke", "#0009"];
 const SHEET = ["emojis"];
 
-export class Test2 extends Scene {
+export class Test2 extends BaseTest {
 
     async create() {
 
-        while (true) {
+        super.create();
+
+        const root = new Container();
+        this.addChild(root);
+
+        while (this.active) {
 
             const richText = this.generateText();
 
             this.centerText(richText);
 
-            this.addChild(richText);
+            root.addChild(richText);
 
-            await timerPromise(this.app, 500, p => richText.alpha = p);
+            await this.timer(500, p => richText.alpha = p);
 
-            await timerPromise(this.app, 2000);
+            await this.timer(2000);
 
-            this.stage.removeChildren();
+            root.removeChildren();
         }
     }
 
@@ -39,7 +43,7 @@ export class Test2 extends Scene {
             .letterSpacing(5)
             .lineSpacing(10)
             .fontSize(30)
-            .width(this.app.view.width - 10);
+            .width(this.app.screen.width - 10);
 
         for (let i = 0; i < 25; i++) {
 
@@ -72,15 +76,15 @@ export class Test2 extends Scene {
 
         let b = richText.getBounds();
 
-        if (b.height > this.app.view.height) {
+        if (b.height > this.app.screen.height) {
 
-            richText.height = this.app.view.height - 5;
+            richText.height = this.app.screen.height - 5;
             richText.scale.x = richText.scale.y;
         }
 
         b = richText.getBounds();
 
-        richText.position.y = this.app.view.height / 2 - b.height / 2;
+        richText.position.y = this.app.screen.height / 2 - b.height / 2;
     }
 
     private generateRandomImage(builder: RichStringBuilder) {

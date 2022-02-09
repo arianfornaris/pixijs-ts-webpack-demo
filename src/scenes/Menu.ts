@@ -1,4 +1,4 @@
-import { Application, Text } from "pixi.js";
+import { Application, InteractionEvent, Text } from "pixi.js";
 import Scene from "./Scene";
 import { Test1 } from "./Test1";
 import { Test2 } from "./Test2";
@@ -28,7 +28,7 @@ export class Menu extends Scene {
 
             btn.position.set(100, 100 + i++ * 50);
             btn.interactive = true;
-            btn.once("pointerdown", () => {
+            btn.once("pointerdown", (e: InteractionEvent) => {
 
                 this.destroy();
 
