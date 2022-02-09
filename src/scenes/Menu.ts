@@ -1,4 +1,4 @@
-import { Application, InteractionEvent, Text } from "pixi.js";
+import { Application, InteractionEvent, Sprite, Text } from "pixi.js";
 import Scene from "./Scene";
 import { Test1 } from "./Test1";
 import { Test2 } from "./Test2";
@@ -12,21 +12,26 @@ export class Menu extends Scene {
 
     create(): void {
 
+        const bg = new Sprite(this.app.loader.resources["bg"].texture);
+        bg.interactive = true;
+        bg.width = this.app.screen.width;
+        bg.height = this.app.screen.height;
+        this.addChild(bg);
+
         const testsInfo = [
-            { title: "Test 1", factory: () => new Test1(this.app) },
-            { title: "Test 2", factory: () => new Test2(this.app) },
-            { title: "Test 3", factory: () => new Test3(this.app) }
+            { frame: "test1-btn.png", factory: () => new Test1(this.app) },
+            { frame: "test2-btn.png", factory: () => new Test2(this.app) },
+            { frame: "test3-btn.png", factory: () => new Test3(this.app) }
         ]
 
         let i = 0;
 
         for (const testInfo of testsInfo) {
 
-            const btn = new Text(testInfo.title, {
-                fill: "#fff"
-            });
+            const btn = new Sprite(this.app.loader.resources["buttons"].textures[testInfo.frame]);
 
-            btn.position.set(100, 100 + i++ * 50);
+            btn.position.set(this.app.screen.width / 2, 130 + i++ * 200);
+            btn.anchor.set(0.5);
             btn.interactive = true;
             btn.once("pointerdown", (e: InteractionEvent) => {
 

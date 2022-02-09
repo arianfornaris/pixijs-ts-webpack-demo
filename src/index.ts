@@ -15,6 +15,7 @@ app.loader
 	.add("cards", "./assets/cards.json")
 	.add("emojis", "./assets/emojis.json")
 	.add("fire", "./assets/fire.json")
+	.add("buttons", "./assets/buttons.json")
 	.add("bg", "./assets/bg.jpg")
 	.load(() => {
 

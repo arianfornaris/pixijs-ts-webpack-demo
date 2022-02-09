@@ -1,12 +1,10 @@
-import { Sprite } from "pixi.js";
+import { Container, Sprite } from "pixi.js";
 import { Menu } from "./Menu";
 import Scene from "./Scene";
 
 export class BaseTest extends Scene {
 
     create(): void {
-
-        console.log(this.app.loader.resources["bg"].texture);
 
         const bg = new Sprite(this.app.loader.resources["bg"].texture);
         bg.interactive = true;
@@ -15,7 +13,17 @@ export class BaseTest extends Scene {
 
         bg.on("pointerdown", async () => {
 
-            await this.timer(100, p => this.app.stage.alpha = (1 - p));
+            const sceneObjects = [];
+
+            for(const obj of this.stage.children) {
+
+                if (obj !== bg) {
+                    
+                    sceneObjects.push(obj);
+                }
+            }
+
+            await this.timer(100, p => sceneObjects.forEach(e => e.alpha = 1 - p));
 
             this.destroy();
 
