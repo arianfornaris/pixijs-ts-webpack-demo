@@ -19,17 +19,18 @@ export class Test3 extends BaseTest {
         this._layer2 = this.addChild(new Container());
         this._layer3 = this.addChild(new Container());
 
-        this.flames1();
+        this.smoke();
+        this.flames0();
         this.flames2();
 
         const sprite = new Sprite(this.app.loader.resources["emojis"].textures["emoji-08.png"]);
 
         this._layer2.addChild(sprite);
 
-        const delta = 50;
+        let delta = 50;
 
         sprite.anchor.set(0.5);
-        sprite.position.set(200 - delta/2, 500);
+        sprite.position.set(200, 500);
         sprite.alpha = 0.8;
 
 
@@ -37,11 +38,13 @@ export class Test3 extends BaseTest {
 
             const x1 = sprite.x;
 
+            delta = (400 - x1) * 0.8 * Math.random();
+
             this.timer(2000, p => sprite.angle = -5 + 10 * Math.sin(p * Math.PI));
 
-            await this.timer(1000, p => {
+            await this.timer(1000 + Math.random() * 1000, p => {
 
-                sprite.x = x1 + delta * Math.sin(p * Math.PI/2);
+                sprite.x = x1 + delta * Math.sin(p * Math.PI / 2);
 
                 for (const emitter of this._emitters) {
 
@@ -51,9 +54,11 @@ export class Test3 extends BaseTest {
 
             const x2 = sprite.x;
 
-            await this.timer(1000, p => {
+            delta = -x2 * 0.8 * Math.random();
 
-                sprite.x = x2 - delta * Math.sin(p * Math.PI/2);
+            await this.timer(1000 + Math.random() * 1000, p => {
+
+                sprite.x = x2 + delta * Math.sin(p * Math.PI / 2);
 
                 for (const emitter of this._emitters) {
 
@@ -63,19 +68,14 @@ export class Test3 extends BaseTest {
         }
     }
 
-    private flames1() {
+    private flames0() {
 
         const textures = this.app.loader.resources["fire"].textures;
 
         const emitter = new Emitter(this._layer1,
             [
-                textures["particle-red.png"],
-                textures["particle-red.png"],
-                textures["particle-red.png"],
-                textures["particle-yellow.png"],
-                textures["particle-yellow.png"],
-                textures["particle-yellow.png"],
-                textures["particle-black.png"]
+                textures["flame1.png"],
+                textures["fire2.png"],
             ],
             {
                 alpha: {
@@ -85,7 +85,88 @@ export class Test3 extends BaseTest {
                             time: 0
                         },
                         {
-                            value: 0.1,
+                            value: 0,
+                            time: 1
+                        }
+                    ]
+                },
+                scale: {
+                    list: [
+                        {
+                            value: 0.4,
+                            time: 0
+                        },
+                        {
+                            value: 1,
+                            time: 1
+                        }
+                    ],
+                },
+                speed: {
+                    list: [
+                        {
+                            value: 8000,
+                            time: 0
+                        },
+                        {
+                            value: 10000,
+                            time: 1
+                        }
+                    ],
+                },
+                acceleration: {
+                    x: -2000,
+                    y: -4000
+                },
+                startRotation: {
+                    min: -100,
+                    max: -80
+                },
+                lifetime: {
+                    min: 0.01,
+                    max: 0.1
+                },
+                frequency: 0.01,
+                spawnChance: 1,
+                particlesPerWave: 6,
+                emitterLifetime: 0,
+                maxParticles: 1000,
+                pos: {
+                    x: 200,
+                    y: 500
+                },
+                addAtBack: false,
+                spawnType: "circle",
+                spawnCircle: {
+                    x: 0,
+                    y: -50,
+                    r: 50
+                }
+            });
+
+        emitter.emit = true;
+
+        this._emitters.push(emitter);
+    }
+
+    private smoke() {
+
+        const textures = this.app.loader.resources["fire"].textures;
+
+        const emitter = new Emitter(this._layer1,
+            [
+                textures["particle-black.png"],
+                textures["particle-red.png"],
+            ],
+            {
+                alpha: {
+                    list: [
+                        {
+                            value: 0.5,
+                            time: 0
+                        },
+                        {
+                            value: 0.2,
                             time: 1
                         }
                     ]
@@ -123,7 +204,7 @@ export class Test3 extends BaseTest {
                     max: -80
                 },
                 lifetime: {
-                    min: 0.5,
+                    min: 0.1,
                     max: 1
                 },
                 frequency: 0.01,
@@ -177,7 +258,7 @@ export class Test3 extends BaseTest {
                 alpha: {
                     list: [
                         {
-                            value: 1,
+                            value: 0.4,
                             time: 0
                         },
                         {
@@ -215,12 +296,12 @@ export class Test3 extends BaseTest {
                     y: -4000
                 },
                 startRotation: {
-                    min: -100,
-                    max: -80
+                    min: -120,
+                    max: -70
                 },
                 lifetime: {
-                    min: 0.5,
-                    max: 1
+                    min: 0.01,
+                    max: 0.1
                 },
                 frequency: 0.01,
                 spawnChance: 1,

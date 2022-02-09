@@ -1,8 +1,24 @@
 {"frames": {
 
+"fire2.png":
+{
+	"frame": {"x":427,"y":211,"w":256,"h":256},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
+	"sourceSize": {"w":256,"h":256}
+},
+"flame1.png":
+{
+	"frame": {"x":0,"y":0,"w":200,"h":160},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":160},
+	"sourceSize": {"w":200,"h":160}
+},
 "particle-black.png":
 {
-	"frame": {"x":0,"y":0,"w":211,"h":211},
+	"frame": {"x":200,"y":0,"w":211,"h":211},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":211,"h":211},
@@ -10,7 +26,7 @@
 },
 "particle-blue.png":
 {
-	"frame": {"x":211,"y":0,"w":211,"h":211},
+	"frame": {"x":411,"y":0,"w":211,"h":211},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":211,"h":211},
@@ -18,7 +34,7 @@
 },
 "particle-red.png":
 {
-	"frame": {"x":0,"y":211,"w":216,"h":216},
+	"frame": {"x":211,"y":211,"w":216,"h":216},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":216,"h":216},
@@ -26,7 +42,7 @@
 },
 "particle-yellow.png":
 {
-	"frame": {"x":216,"y":211,"w":211,"h":211},
+	"frame": {"x":0,"y":211,"w":211,"h":211},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":211,"h":211},
@@ -37,8 +53,8 @@
 	"version": "1.0",
 	"image": "fire.png",
 	"format": "RGBA8888",
-	"size": {"w":427,"h":427},
+	"size": {"w":683,"h":467},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:f7fb56c0f62bd49db471d460887c4eb2:2b1f55f0ff630a44709f8d171753a195:fe85b518f19a08db92d89ee48ba7169f$"
+	"smartupdate": "$TexturePacker:SmartUpdate:0a6ed72264c274f4fd629fafa2f13ba9:369fb707fd41b18d88aa0add0fcff51c:fe85b518f19a08db92d89ee48ba7169f$"
 }
 }
