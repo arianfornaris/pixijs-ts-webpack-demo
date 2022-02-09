@@ -1,5 +1,6 @@
 import { Container } from "pixi.js";
 import { RichStringBuilder } from "../gameobjects/RichStringBuilder";
+import { timer, timerPromise } from "../utils/Timer";
 import Scene from "./Scene";
 
 const SIZE = [18, 20, 20, 20, 20, 24, 32, 48, 48, 48, 48];
@@ -9,13 +10,22 @@ const SHEET = ["emojis"];
 
 export class Test2 extends Scene {
 
-    create(): void {
+    async create() {
 
-        const richText = this.generateText();
+        while (true) {
 
-        this.centerText(richText);
+            const richText = this.generateText();
 
-        this.addChild(richText);
+            this.centerText(richText);
+
+            this.addChild(richText);
+
+            await timerPromise(this.app, 500, p => richText.alpha = p);
+
+            await timerPromise(this.app, 2000);
+
+            this.stage.removeChildren();
+        }
     }
 
     private generateText() {
