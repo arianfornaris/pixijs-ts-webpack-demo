@@ -1,6 +1,6 @@
 import { Container } from "pixi.js";
 import { RichStringBuilder } from "../gameobjects/RichStringBuilder";
-import { timer, timerPromise } from "../utils/Timer";
+import { timerPromise } from "../utils/Timer";
 import Scene from "./Scene";
 
 const SIZE = [18, 20, 20, 20, 20, 24, 32, 48, 48, 48, 48];
@@ -139,9 +139,3 @@ Lucy reruns have gone off stare
     .split(" ")
     .map(w => w.trim())
     .filter(w => w.length > 0);
-
-
-/*
-
-
-*/

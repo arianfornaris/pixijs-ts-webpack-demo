@@ -1,4 +1,5 @@
 import { Sprite, Text } from "pixi.js";
+import { timerPromise } from "../utils/Timer";
 import Scene from "./Scene";
 
 const TOP_POSITION = 200;
@@ -7,20 +8,13 @@ const NEXT_CARD_DELAY = 1000;
 
 export class Test1 extends Scene {
 
-    private _cards: Sprite[];
-    private _movingCard: Sprite;
-    private _time: number;
-    private _cardInitAngle: number;
-    private _cardInitY: number;
-    private _state: "waiting" | "moving";
-
-    create(): void {
+    async create() {
 
         const sheet = this.app.loader.resources["cards"].textures;
 
         const margin = 20;
 
-        this._cards = [];
+        const cards: Sprite[] = [];
 
         for (let i = 0; i < 144; i++) {
 
@@ -32,18 +26,35 @@ export class Test1 extends Scene {
 
             this.addChild(card);
 
-            this._cards.push(card);
+            cards.push(card);
         }
 
         this.addDebugText();
 
-        this._state = "waiting";
-        this._time = 0;
+        while (cards.length > 0) {
+
+            const card = cards.pop();
+            
+            this.stage.setChildIndex(card, this.stage.children.length - 1);
+
+            const y = card.position.y;
+            const angle = card.angle;
+
+            await timerPromise(this.app, MOVE_CARD_DURATION, p => {
+
+                card.y = Math.max(y - (y - TOP_POSITION) * p, TOP_POSITION);
+                card.angle = angle - 2 * angle * p;
+
+                card.scale.set(1 + Math.sin(p * Math.PI) * 0.2);
+            });
+
+            await timerPromise(this.app, NEXT_CARD_DELAY);
+        }
     }
 
     private addDebugText() {
 
-        const label = new Text("0fps", {fill: "#f0f0f0"});
+        const label = new Text("0fps", { fill: "#f0f0f0" });
         label.position.set(10, 10);
         this.addChild(label);
 
@@ -51,66 +62,5 @@ export class Test1 extends Scene {
 
             label.text = Math.round(this.app.ticker.FPS) + "fps";
         });
-    }    
-
-    private popNextCard() {
-
-        this._movingCard = this._cards.pop();
-
-        if (this._movingCard) {
-
-            this._cardInitAngle = this._movingCard.angle;
-            this._cardInitY = this._movingCard.y;
-
-            this.stage.setChildIndex(this._movingCard, this.stage.children.length - 1);
-        }
-    }
-
-    private updateCardMovement() {
-
-        if (!this._movingCard) {
-
-            return;
-        }
-
-        this._time += this.app.ticker.elapsedMS;
-
-        const p = this._time / MOVE_CARD_DURATION;
-
-        this._movingCard.y = Math.max(this._cardInitY - (this._cardInitY - TOP_POSITION) * p, TOP_POSITION);
-        this._movingCard.angle = this._cardInitAngle - 2 * this._cardInitAngle * p;
-
-        this._movingCard.scale.set(1 + Math.sin(p * Math.PI) * 0.2);
-
-        if (this._movingCard.y <= TOP_POSITION) {
-
-            this._state = "waiting";
-            this._time = 0;
-        }
-    }
-
-    private updateWaiting() {
-
-        this._time += this.app.ticker.elapsedMS;
-
-        if (this._time > NEXT_CARD_DELAY) {
-
-            this._state = "moving";
-            this._time = 0;
-
-            this.popNextCard();
-        }
-    }
-
-    protected update(): void {
-
-        if (this._state === "waiting") {
-
-            this.updateWaiting();
-
-        } else {
-
-            this.updateCardMovement();
-        }
     }
 }
