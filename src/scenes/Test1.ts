@@ -5,6 +5,7 @@ import Scene from "./Scene";
 const TOP_POSITION = 200;
 const MOVE_CARD_DURATION = 2000;
 const NEXT_CARD_DELAY = 1000;
+const CARDS_VISIBLE = 10;
 
 export class Test1 extends BaseTest {
 
@@ -19,11 +20,13 @@ export class Test1 extends BaseTest {
         const margin = 20;
 
         const cards: Sprite[] = [];
+        const cards2: Sprite[] = [];
 
         for (let i = 0; i < 144; i++) {
 
             const card = new Sprite(sheet[(i % 10) + 1 + ".jpg"]);
 
+            card.visible = i > 144 - CARDS_VISIBLE;
             card.position.set(200 + Math.random() * margin, 500 + Math.random() * margin);
             card.anchor.set(0.5, 0.5);
             card.angle = (3 + Math.random() * 3) * (i % 2 == 0 ? 1 : -1);
@@ -38,6 +41,24 @@ export class Test1 extends BaseTest {
             await this.timer(NEXT_CARD_DELAY);
 
             const card = cards.pop();
+
+            {
+                const nextVisibleCard = cards[cards.length - CARDS_VISIBLE + 1];
+
+                if (nextVisibleCard) {
+
+                    nextVisibleCard.visible = true;
+                }
+
+                cards2.push(card);
+                
+                const nextCardHidden = cards2[cards2.length - CARDS_VISIBLE - 1];
+                
+                if (nextCardHidden) {
+
+                    nextCardHidden.visible = false;
+                }
+            }
 
             this.stage.setChildIndex(card, this.stage.children.length - 1);
 
